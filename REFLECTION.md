@@ -16,3 +16,28 @@ A fragment allows me to group multiple elements without adding an extra element 
 
 One benefit is that the code becomes easier to manage and reuse. For example, I can create a `Button` component once and use it in different parts of the application instead of writing the same code repeatedly.
 
+
+
+
+
+# Week 2 Reflection
+
+### 1. What is the difference between props and state?
+
+Props are data passed from a parent component to a child component. State is data that a component remembers and can update. When the state changes, React updates the UI.
+
+### 2. Why do we use `.map()` in React?
+
+We use `.map()` to display a list of items from an array. In CampusEats, it helps display menu items and vendor cards without writing the same code repeatedly.
+
+### 3. What is the purpose of `onClick`?
+
+`onClick` allows the application to respond when a user clicks something. In CampusEats, clicking a vendor changes the menu, while clicking the Add to Cart button adds an item to the cart.
+
+### 4. Why do we use `useState`?
+
+We use `useState` to store and update information in a component. In CampusEats, it remembers the selected vendor and the items added to the cart. When the state changes, the UI updates automatically.
+
+### 5. Why should we use a new array when updating the cart?
+
+We should create a new array when updating the cart because React detects state changes more reliably when a new array is created. Using `setCart((prevCart) => [...prevCart, item])` adds an item without modifying the original array.
