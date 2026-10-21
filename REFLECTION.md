@@ -41,3 +41,25 @@ We use `useState` to store and update information in a component. In CampusEats,
 ### 5. Why should we use a new array when updating the cart?
 
 We should create a new array when updating the cart because React detects state changes more reliably when a new array is created. Using `setCart((prevCart) => [...prevCart, item])` adds an item without modifying the original array.
+
+# Week 3 Reflection
+
+### 1. What is the purpose of `useEffect` in React?
+
+We use `useEffect` to run code after a component renders. In CampusEats, it helps fetch vendor data from the mock API when the application loads.
+
+### 2. Why do we use `fetch()` in CampusEats?
+
+We use `fetch()` to request data from the API. In CampusEats, it retrieves vendor and menu information from `public/api/vendors.json` so the application can display the data.
+
+### 3. Why do we need loading and error states?
+
+Loading states inform users that the application is retrieving data. Error states inform users when something goes wrong, such as when the API request fails. In CampusEats, users can also click the Try again button to reload the vendor data.
+
+### 4. What is the purpose of `AbortController`?
+
+`AbortController` allows us to cancel a fetch request when it is no longer needed. In React, we use it in `useEffect` cleanup to prevent unnecessary requests when a component is removed or the effect runs again.
+
+### 5. What is the difference between importing local data and fetching data from an API?
+
+Importing local data means accessing data directly from a file in the project. Fetching data from an API means requesting data through a URL. In CampusEats, we use `fetch('/api/vendors.json')` to retrieve vendor data instead of importing `vendors.js` directly.
