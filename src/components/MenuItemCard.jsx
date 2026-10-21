@@ -1,3 +1,5 @@
+import DailySpecial from './DailySpecial.jsx'
+
 function MenuItemCard({ item, onAdd }) {
  return (
  <article className="card menu-card">
@@ -5,6 +7,7 @@ function MenuItemCard({ item, onAdd }) {
  <p className="tag">{item.category}</p>
  <h3>{item.name}</h3>
  <p className="muted">{item.description}</p>
+ {item.dailySpecial && <DailySpecial item={item} />}
  <p className="price">RM {item.price.toFixed(2)}</p>
  <button className="btn" disabled={!item.available} onClick={() => onAdd(item)}>
  {item.available ? 'Add to cart' : 'Sold out'}

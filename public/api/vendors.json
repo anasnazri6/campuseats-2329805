@@ -1,0 +1,46 @@
+[
+  {
+    "id": "2416464-kopi-dahlia",
+    "name": "Kopi Dahlia",
+    "location": "Mahallah Asma, Block C",
+    "openHours": "8:00 am - 11:00 pm",
+    "isOpen": true,
+    "menu": [
+      {
+        "id": "2416464-m1",
+        "name": "Teh Tarik",
+        "price": 2.5,
+        "category": "Drinks",
+        "popular": true,
+        "available": true,
+        "dailySpecial": true,
+        "specialEndsAt": "2026-10-21T23:59:59+08:00"
+      }
+    ]
+  },
+  {
+    "id": "2416464-nasi-lemak",
+    "name": "Nasi Lemak Corner",
+    "location": "Mahallah Ali, Block A",
+    "openHours": "7:00 am - 5:00 pm",
+    "isOpen": true,
+    "menu": [
+      {
+        "id": "2416464-m2",
+        "name": "Nasi Lemak Ayam",
+        "price": 7.5,
+        "category": "Food",
+        "popular": true,
+        "available": true
+      },
+      {
+        "id": "2416464-m3",
+        "name": "Milo Ais",
+        "price": 3.0,
+        "category": "Drinks",
+        "popular": false,
+        "available": true
+      }
+    ]
+  }
+]
