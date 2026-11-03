@@ -178,3 +178,41 @@ start; }
 .form input, .form select { padding: 0.5rem; border: 1px solid #c5cbd3; border-radius: 8px; font: inherit; }
 .field-error { color: #b3261e; font-size: 0.85rem; margin: 0; }
 .error { border-left: 4px solid #b3261e; }
+
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.order-header h3 {
+  margin: 0;
+}
+
+.customer-info {
+  text-align: right;
+}
+
+.customer-info p {
+  margin: 4px 0;
+}
+
+@media (max-width: 600px) {
+  .order-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .customer-info {
+    text-align: left;
+  }
+}
+

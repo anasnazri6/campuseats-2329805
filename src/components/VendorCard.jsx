@@ -1,5 +1,12 @@
+import { Link } from 'react-router'
+
 function VendorCard({ vendor, isSelected, onSelect }) {
+
  return (
+  <Link
+      to={`/vendor/${vendor.id}`}
+      className="vendor-card"
+    >
  <button
  type="button"
  className={isSelected ? 'card vendor-card selected' : 'card vendor-card'}
@@ -15,6 +22,7 @@ function VendorCard({ vendor, isSelected, onSelect }) {
  </span>
  </div>
  </button>
+ </Link>
  )
 }
 export default VendorCard
