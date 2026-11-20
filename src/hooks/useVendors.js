@@ -1,51 +1,35 @@
+
 import { useEffect, useState } from 'react'
+import { subscribeToVendors } from '../services/vendors.js'
 
 export function useVendors() {
-const [vendors, setVendors] = useState([])
-const [loading, setLoading] = useState(true)
-const [error, setError] = useState(null)
-const [reloadKey, setReloadKey] = useState(0)
+  const [vendors, setVendors] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [reloadKey, setReloadKey] = useState(0)
 
-useEffect(() => {
-  const controller = new AbortController()
-
-  async function loadVendors() {
+  useEffect(() => {
     setLoading(true)
     setError(null)
 
-    try {
-      const res = await fetch('/api/vendors.json', {
-        signal: controller.signal,
-      })
-
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`)
-      }
-
-      const data = await res.json()
-      setVendors(data)
-
-    } catch (err) {
-      if (err.name !== 'AbortError') {
-        setError(err.message)
-      }
-    } finally {
-      if (!controller.signal.aborted) {
+    const unsubscribe = subscribeToVendors(
+      (data) => {
+        setVendors(data)
         setLoading(false)
-      }
-    }
+      },
+      (err) => {
+        setError(err.message)
+        setLoading(false)
+      },
+    )
+
+    return unsubscribe
+  }, [reloadKey])
+
+  return {
+    vendors,
+    loading,
+    error,
+    reload: () => setReloadKey((k) => k + 1),
   }
-
-  loadVendors()
-
-  return () => controller.abort()
-
-}, [reloadKey])
-
-function reload() {
-  setReloadKey((key) => key + 1)
-}
-
-return { vendors, loading, error, reload }
-
 }

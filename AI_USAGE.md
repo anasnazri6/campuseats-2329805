@@ -93,3 +93,23 @@ Learned how Firebase Authentication works with React Context API. Understood how
 ### One thing the AI got wrong and how I fixed it
 
 The initial guidance suggested importing React Router from `react-router-dom`, but my project uses `react-router`. I checked the installed dependencies and corrected the import to use the existing package. I also corrected the Header implementation by placing React Hooks inside the `Header` component.
+
+
+
+
+# Week 6 — AI Usage
+
+### Tools Used
+- ChatGPT (GPT-6) for coding guidance, debugging and explanations.
+- Visual Studio Code for editing React and JavaScript files.
+- Firebase Console for managing Firestore collections, documents and testing real-time updates.
+- Browser Developer Tools for checking console errors.
+
+### What I Asked AI
+I used ChatGPT to help me understand and implement Firestore CRUD operations and real-time updates in CampusEats. I asked for guidance on implementing `subscribeToMenu()`, placing orders, displaying orders using `onSnapshot()`, changing pickup times and cancelling orders. I also asked for help implementing my personal feature, Daily Special with Countdown, using Firestore fields `special` and `specialEndsAt`. I used ChatGPT to troubleshoot errors in `DailySpecial.jsx` and `VendorCard.jsx`.
+
+### What I Kept or Changed
+I kept the suggestions that worked with my existing CampusEats project structure. I used the suggested Firestore subscription and cleanup logic in `useVendor.js` and reused `subscribeToMenu()` to receive live menu updates. I also updated `DailySpecial.jsx` to read the ending time from Firestore and display the countdown. For `VendorCard.jsx`, I removed the unnecessary `onSelect` callback and nested button because the vendor card already used React Router `Link` for navigation. I tested and adjusted the code based on the errors shown in my browser console.
+
+### One Thing AI Got Wrong
+Initially, ChatGPT suggested using `item.specialEndsAt.toMillis()` directly in the countdown component. However, my application showed the error `item.specialEndsAt.toMillis is not a function` because the value received was not a Firestore Timestamp object. I shared the browser console error and updated the code to handle different date formats instead of relying only on `toMillis()`.

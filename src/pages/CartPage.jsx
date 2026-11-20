@@ -1,53 +1,106 @@
-import CartItem from '../components/CartItem.jsx'
-import CheckoutForm from '../components/CheckoutForm.jsx'
-import { useCart } from '../hooks/useCart'
+
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
+import { useAuth } from '../hooks/useAuth.js'
+import { useCart } from '../hooks/useCart.js'
+import { placeOrders } from '../services/orders.js'
+import CheckoutForm from '../components/CheckoutForm.jsx'
 
 function CartPage() {
+  const navigate = useNavigate()
+
   const {
     cart,
     total,
     changeQty,
     removeFromCart,
-    placeOrder,
+    clearCart,
   } = useCart()
 
-  const navigate = useNavigate()
+  const { user } = useAuth()
+  const [error, setError] = useState('')
 
-  function handlePlaceOrder(details) {
-    placeOrder(details)
+  async function handlePlaceOrder(details) {
+    setError('')
+
+    try {
+    // TODO 4: await placeOrders(user, cart, details), then clearCart(), then navigate('/orders')
+    await placeOrders(user, cart, details)
+    clearCart()
     navigate('/orders')
-  }
-
-  if (cart.length === 0) {
-    return (
-      <p className="muted">
-        Your cart is empty. Pick something from a menu first.
-      </p>
-    )
+  } catch (err) {
+    setError(`Could not place the order: ${err.message}`)
+  
+    }
   }
 
   return (
-    <div className="cart-layout">
-      <div className="card">
-        <ul className="cart-list">
-          {cart.map((line) => (
-            <CartItem
-              key={line.item.id}
-              line={line}
-              onChangeQty={changeQty}
-              onRemove={removeFromCart}
-            />
-          ))}
-        </ul>
+    <section>
+      <h2 className="section-title">Your Cart</h2>
 
-        <p className="cart-total">
-          Total: RM {total.toFixed(2)}
-        </p>
-      </div>
+      {cart.length === 0 ? (
+        <p>Your cart is empty.</p>
+      ) : (
+        <>
+          <div className="cart-list">
+            {cart.map(({ item, qty }) => (
+              <div key={item.id} className="card cart-item">
+                <div>
+                  <h3>{item.name}</h3>
+                  <p className="muted">
+                    RM {item.price.toFixed(2)} each
+                  </p>
+                </div>
 
-      <CheckoutForm onPlaceOrder={handlePlaceOrder} />
-    </div>
+                <div>
+                  <button
+                    className="btn"
+                    onClick={() => changeQty(item.id, -1)}
+                  >
+                    -
+                  </button>
+
+                  <span> {qty} </span>
+
+                  <button
+                    className="btn"
+                    onClick={() => changeQty(item.id, 1)}
+                  >
+                    +
+                  </button>
+
+                  <button
+                    className="btn"
+                    onClick={() => removeFromCart(item.id)}
+                  >
+                    Remove
+                  </button>
+                </div>
+
+                <p className="price">
+                  RM {(item.price * qty).toFixed(2)}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <h3 className="price">
+            Total: RM {total.toFixed(2)}
+          </h3>
+
+          {error && (
+            <p className="field-error" role="alert">
+              {error}
+            </p>
+          )}
+
+          <CheckoutForm
+            defaultName={user?.displayName ?? ''}
+            onPlaceOrder={handlePlaceOrder}
+          />
+        </>
+      )}
+    </section>
   )
 }
 

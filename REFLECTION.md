@@ -63,3 +63,31 @@ Loading states inform users that the application is retrieving data. Error state
 ### 5. What is the difference between importing local data and fetching data from an API?
 
 Importing local data means accessing data directly from a file in the project. Fetching data from an API means requesting data through a URL. In CampusEats, we use `fetch('/api/vendors.json')` to retrieve vendor data instead of importing `vendors.js` directly.
+
+
+
+
+
+# Week 6 Reflection
+
+### 1. Explain step by step what happens from clicking Place Order until the new order appears on the Orders page.
+
+When the user clicks the Place Order button, the `handlePlaceOrder()` function in `CartPage.jsx` is called. It uses `placeOrders(user, cart, details)` from `orders.js` to save the order into Firestore. The `placeOrders()` function groups the cart items by vendor and creates order documents using a Firestore batch write. After the order is saved successfully, `clearCart()` removes the items from the cart and `navigate('/orders')` takes the user to the Orders page. The `useMyOrders()` hook uses `subscribeToMyOrders()` to listen for the user's orders. We do not need to call `setOrders()` manually because Firestore's `onSnapshot()` automatically updates the data when changes happen.
+
+### 2. Why is orders a top-level collection, and why does each order copy vendorName and each item's name and price instead of storing only IDs?
+
+The `orders` collection is stored at the top level because orders can be accessed and queried independently from vendor documents. Each order stores the `vendorName` and the names and prices of the purchased items instead of only storing their IDs. This makes it easier to display order details without fetching the vendor and menu documents again. It also keeps the original item information even if the vendor changes the menu or price later. The `studentUid` field is also used to identify which student owns the order.
+
+### 3. My Personal Feature — Daily Special with Countdown
+
+My personal feature is Daily Special with Countdown because the last digit of my matric number is 5. The feature data is stored in the Firestore path `vendors/{vendorId}/menu/{itemId}`. Each special menu item has a Boolean field called `special` and a Timestamp field called `specialEndsAt`. The `subscribeToMenu()` function in `src/services/vendors.js` uses `onSnapshot()` to listen for menu changes in real time. In `MenuItemCard.jsx`, I use `{item.special && <DailySpecial item={item} />}` to display the countdown when an item is a daily special. In `DailySpecial.jsx`, the line `const value = item.specialEndsAt` reads the ending time from the Firestore menu item data.
+
+### 4.3 Bugs Encountered
+
+**Bug 1: Daily Special Countdown Error**
+
+I received the error `item.specialEndsAt.toMillis is not a function` in the browser console. This happened because the value received by the component was not always a Firestore Timestamp object. I fixed it by updating the countdown logic to handle different date formats, including Firestore Timestamp, JavaScript Date, string and numeric values. After the fix, the component could calculate the remaining time without relying only on `toMillis()`.
+
+**Bug 2: VendorCard onSelect Error**
+
+I received the error `onSelect is not a function` when clicking a vendor card. This happened because `HomePage.jsx` only passed the `vendor` prop, but `VendorCard.jsx` was trying to call `onSelect(vendor.id)`. I fixed it by removing the unnecessary `onSelect` callback and nested button. I used the React Router `Link` component directly to navigate to the selected vendor page.

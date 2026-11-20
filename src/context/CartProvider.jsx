@@ -1,10 +1,10 @@
+
 import { useMemo } from 'react'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { CartContext } from './cart-context'
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useLocalStorage('campuseats-cart', [])
-  const [orders, setOrders] = useLocalStorage('campuseats-orders', [])
 
   const count = cart.reduce(
     (total, line) => total + line.qty,
@@ -52,31 +52,20 @@ export function CartProvider({ children }) {
     )
   }
 
-  function placeOrder(details = {}) {
-    const order = {
-      id: Date.now(),
-      ...details,
-      items: cart,
-      total,
-      date: new Date().toISOString(),
-    }
-
-    setOrders(prevOrders => [order, ...prevOrders])
+  // TODO: Clear cart after successful Firestore order placement
+  function clearCart() {
     setCart([])
-
-    return order
   }
 
   const value = useMemo(() => ({
     cart,
-    orders,
     count,
     total,
     addToCart,
     changeQty,
     removeFromCart,
-    placeOrder,
-  }), [cart, orders, count, total])
+    clearCart,
+  }), [cart, count, total])
 
   return (
     <CartContext.Provider value={value}>

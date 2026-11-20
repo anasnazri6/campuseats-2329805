@@ -1,48 +1,66 @@
 
-import { useCart } from '../hooks/useCart'
+import { useMyOrders } from '../hooks/useMyOrders.js'
+import OrderStatus from '../components/OrderStatus.jsx'
+import { Loading, ErrorMessage } from '../components/Status.jsx'
+import OrderActions from '../components/OrderActions.jsx'
 
 function OrdersPage() {
-  const { orders } = useCart()
+  const { orders, loading, error } = useMyOrders()
+
+  // TODO: replaces useCart().orders with Firestore orders
 
   return (
     <section>
       <h2 className="section-title">My Orders</h2>
 
-      {orders.length === 0 ? (
-        <p className="muted">No orders yet.</p>
-      ) : (
-        <div className="orders-list">
+      {loading && <Loading />}
+
+      {error && <ErrorMessage message={error} />}
+
+      {!loading && !error && orders.length === 0 && (
+        <p>No orders yet.</p>
+      )}
+
+      {!loading && !error && (
+        <ul className="order-list">
           {orders.map((order) => (
-            <div className="card" key={order.id}>
+            <li key={order.id} className="card">
 
-              <div className="order-header">
-                <h3>Order #{order.id}</h3>
-
-                <div className="customer-info">
-                  <p><strong>{order.name}</strong></p>
-                  <p>{order.mahallah}</p>
-                </div>
-              </div>
-
-              <hr />
-
-              <p><strong>Order Details:</strong></p>
-
-              {order.items.map((line) => (
-                <p key={line.item.id}>
-                  {line.item.name} × {line.qty}
-                </p>
-              ))}
-
-              <p>Total: RM {order.total.toFixed(2)}</p>
-
-              <p>
-                Date: {new Date(order.date).toLocaleString()}
+              <p className="cart-name">
+                {order.vendorName} · pickup {order.pickupTime}
               </p>
 
-            </div>
+              {/* Student details */}
+              <p>Name: {order.studentName}</p>
+              <p className="muted">
+                Mahallah: {order.mahallah}
+              </p>
+
+              {/* Order items */}
+              <p className="muted">
+                {order.items.map((i) => `${i.qty}× ${i.name}`).join(', ')}
+              </p>
+
+              {/* Order date */}
+              <p className="muted">
+                Placed {order.createdAt
+                  ? order.createdAt.toDate().toLocaleString('en-MY')
+                  : 'just now'}
+              </p>
+
+              {/* Total */}
+              <p className="price">
+                RM {order.total.toFixed(2)}
+              </p>
+
+              {/* Live order status */}
+              <OrderStatus status={order.status} />
+              {order.status === 'Received' && (
+            <OrderActions order={order} />
+          )}
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </section>
   )

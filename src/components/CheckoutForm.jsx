@@ -30,9 +30,9 @@ function validate(values) {
   return errors
 }
 
-function CheckoutForm({ onPlaceOrder }) {
+function CheckoutForm({ defaultName = '', onPlaceOrder }) {
   const [values, setValues] = useState({
-    name: '',
+    name: defaultName,
     mahallah: '',
     pickupTime: '',
   })
