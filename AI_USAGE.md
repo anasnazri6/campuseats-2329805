@@ -54,3 +54,42 @@ Implemented a Daily Specials section on the HomePage that:
 ### Learning Outcome
 
 Learned how to organise React applications using custom hooks, Context API and React Router. Also gained experience using JavaScript array methods such as `filter`, `map` and `flatMap` to display daily specials.
+
+## Week 5 — Firebase Setup and Authentication
+
+### AI Assistance Used
+
+- Used ChatGPT to understand Firebase Authentication and integrate it with the CampusEats React application.
+- Used ChatGPT to implement `AuthProvider` using React Context API.
+- Used ChatGPT to implement email and password registration and login using Firebase Authentication.
+- Used ChatGPT to implement Google Sign-In using `signInWithPopup()` and `GoogleAuthProvider`.
+- Used ChatGPT to implement logout functionality using `signOut()`.
+- Used ChatGPT to update `LoginPage.jsx` with authentication handling, loading states, error messages and navigation after successful login.
+- Used ChatGPT to update the Header to display the logged-in user's name and provide login/logout navigation.
+- Used ChatGPT to troubleshoot React Hook errors, import issues and Firebase authentication errors.
+
+### Implementation
+
+Implemented Firebase Authentication features that include:
+- User registration with email and password.
+- User login with email and password.
+- Google Sign-In.
+- Logout functionality.
+- Authentication state monitoring using `onAuthStateChanged()`.
+- Displaying the authenticated user's name or email in the Header.
+
+### Testing
+
+- Successfully built the project using `npm run build`.
+- Checked Firebase Authentication requests using Chrome Developer Tools.
+- Tested the email/password login request.
+- Identified a Firebase HTTP 400 error that still requires investigation.
+- Google Sign-In popup warnings were observed and require further verification.
+
+### Learning Outcome
+
+Learned how Firebase Authentication works with React Context API. Understood how to manage authentication states using `useState`, `useEffect` and `onAuthStateChanged()`. Also learned how to handle asynchronous authentication operations, display error messages and protect application routes based on the user's login status.
+
+### One thing the AI got wrong and how I fixed it
+
+The initial guidance suggested importing React Router from `react-router-dom`, but my project uses `react-router`. I checked the installed dependencies and corrected the import to use the existing package. I also corrected the Header implementation by placing React Hooks inside the `Header` component.
