@@ -6,20 +6,34 @@ function DailySpecial({ item }) {
 
   useEffect(() => {
     function updateCountdown() {
-      const remaining = Math.max(
-        0,
-        new Date(item.specialEndsAt).getTime() - Date.now()
-      )
+      const value = item.specialEndsAt
+      let endMillis = 0
 
+      // TODO: Read specialEndsAt from Firestore Timestamp
+      if (typeof value?.toMillis === 'function') {
+        endMillis = value.toMillis()
+      } else if (value instanceof Date) {
+        endMillis = value.getTime()
+      } else if (typeof value === 'string') {
+        endMillis = Date.parse(value) || 0
+      } else if (typeof value === 'number') {
+        endMillis = value
+      } else if (value?.seconds != null) {
+        endMillis = value.seconds * 1000 +
+          (value.nanoseconds || 0) / 1000000
+      }
+
+      const remaining = Math.max(0, endMillis - Date.now())
       setTimeLeft(remaining)
     }
 
     updateCountdown()
-
     const timer = setInterval(updateCountdown, 1000)
 
     return () => clearInterval(timer)
   }, [item.specialEndsAt])
+
+  if (!item.special) return null
 
   if (timeLeft <= 0) {
     return <p className="muted">Special offer ended</p>
