@@ -22,3 +22,5 @@ Vendor 1 – Kik Foodie: My own shop, containing 8 menu items across Food, Drink
 Vendor 2 – Nasi Bangla: Classmate's shop contributed by matric number 2418507, containing 8 menu items.
 
 Vendor 3 – Thousand Sunny: Classmate's shop contributed by matric number 2419671, containing 8 menu items.
+
+Firebase project ID: campuseats-2416464
